@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam/java")
-public class JavaQuestionController {
+@RequestMapping("/exam/math")
+public class MathQuestionController{
     private final QuestionRepository questionRepository;
-    private final String type = "java";
+    private final String type = "math";
 
-    public JavaQuestionController(QuestionRepository questionRepository) {
+    public MathQuestionController(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 

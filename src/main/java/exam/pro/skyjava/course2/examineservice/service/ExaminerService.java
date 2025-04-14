@@ -5,5 +5,5 @@ import exam.pro.skyjava.course2.examineservice.model.Question;
 import java.util.Collection;
 
 public interface ExaminerService {
-    Collection<Question> getQuestions(int amount);
+    Collection<Question> getQuestions(String type, int amount);
 }

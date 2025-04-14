@@ -5,7 +5,6 @@ import exam.pro.skyjava.course2.examineservice.model.Question;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,15 +23,15 @@ public class ExaminerServiceImpl implements ExaminerService {
     }
 
     @Override
-    public List<Question> getQuestions(int amount) {
-        if (amount > questionService.getAll().size()) {
+    public List<Question> getQuestions(String type, int amount) {
+        if (amount > questionService.getAll(type).size()) {
             throw new NoEnoughQuestions(HttpStatus.BAD_REQUEST, "Превышено число вопросов!");
-        } else if (amount == questionService.getAll().size()) {
-            return questionService.getAll().stream().toList();
+        } else if (amount == questionService.getAll(type).size()) {
+            return questionService.getAll(type).stream().toList();
         }
         questionsHasBeenSelected.clear();
         while (questionsHasBeenSelected.size() < amount) {
-            questionsHasBeenSelected.add(questionService.getRandomQuestion());
+            questionsHasBeenSelected.add(questionService.getRandomQuestion(type));
         }
         return questionsHasBeenSelected.stream().toList();
     }
