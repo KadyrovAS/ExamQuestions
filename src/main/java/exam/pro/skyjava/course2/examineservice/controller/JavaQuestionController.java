@@ -16,20 +16,18 @@ public class JavaQuestionController {
         this.questionRepository = questionRepository;
     }
 
-    @GetMapping("/{subject}add")
+    @GetMapping("/add")
     public Question addQuestion(
-            @PathVariable String subject,
-            @RequestParam String question,
-            @RequestParam String answer
+            @RequestParam("question") String question,
+            @RequestParam("answer") String answer
     ){
         return questionRepository.add(question, answer, type);
     }
 
-    @GetMapping("/{subject}remove")
+    @GetMapping("/remove")
     public String remove(
-            @PathVariable String subject,
-            @RequestParam String question,
-            @RequestParam String answer
+            @RequestParam("question") String question,
+            @RequestParam("answer") String answer
     ){
         Question q = questionRepository.remove(new Question(question, answer, type));
         if (q == null){

@@ -15,15 +15,15 @@ import java.util.Set;
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
     private QuestionService questionService;
-    private Set<Question> questionsHasBeenSelected;
 
     public ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
-        this.questionsHasBeenSelected = new HashSet<>();
     }
 
     @Override
     public List<Question> getQuestions(String type, int amount) {
+        Set<Question> questionsHasBeenSelected = new HashSet<>();
+
         if (amount > questionService.getAll(type).size()) {
             throw new NoEnoughQuestions(HttpStatus.BAD_REQUEST, "Превышено число вопросов!");
         } else if (amount == questionService.getAll(type).size()) {

@@ -1,11 +1,8 @@
 package exam.pro.skyjava.course2.examineservice.model;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Objects;
 
-//@Component
-public class Question{
+public class Question {
     private final String question;
     private final String answer;
     private final String type;
