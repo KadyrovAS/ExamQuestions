@@ -17,38 +17,69 @@ import static org.mockito.Mockito.lenient;
 @ExtendWith(MockitoExtension.class)
 public class ExaminerServiceImplTest {
     @Mock
-    private QuestionRepository questionRepositoryMock;
+    private JavaQuestionService javaQuestionService;
+    @Mock
+    private MathQuestionService mathQuestionService;
     @InjectMocks
     private ExaminerServiceImpl examinerService;
 
-    private final String type = "java";
-
     @Test
-    public void givenQuestions_whenGetAllQuestions_thenCheckListSize() {
-        lenient().when(questionRepositoryMock.getAll(type)).thenReturn(
+    public void givenJavaQuestions_whenGetAllQuestions_thenCheckListSize() {
+        lenient().when(javaQuestionService.getAll()).thenReturn(
                 List.of(
-                        new Question("question01", "answer01", type),
-                        new Question("question02", "answer02", type),
-                        new Question("question03", "answer03", type),
-                        new Question("question04", "answer04", type),
-                        new Question("question05", "answer05", type)
+                        new Question("questionJava01", "answerJava01"),
+                        new Question("questionJava02", "answerJava02"),
+                        new Question("questionJava03", "answerJava03"),
+                        new Question("questionJava04", "answerJava04"),
+                        new Question("questionJava05", "answerJava05")
                 )
         );
 
-        List<Question> list = examinerService.getQuestions(type, 5);
+        List<Question> list = examinerService.getQuestions(5, "java");
 
         Assertions.assertEquals(5, list.size());
     }
 
     @Test
-    public void givenSomeQuestions_whenGetBiggerSizeQuestions_thenCheckException() {
-        lenient().when(questionRepositoryMock.getAll(type)).thenReturn(
+    public void givenMathQuestions_whenGetAllQuestions_thenCheckListSize() {
+        lenient().when(mathQuestionService.getAll()).thenReturn(
                 List.of(
-                        new Question("question_00", "answer_00", type)
+                        new Question("questionMath01", "answerMath01"),
+                        new Question("questionMath02", "answerMath02"),
+                        new Question("questionMath03", "answerMath03"),
+                        new Question("questionMath04", "answerMath04"),
+                        new Question("questionMath05", "answerMath05")
+                )
+        );
+
+        List<Question> list = examinerService.getQuestions(5, "math");
+
+        Assertions.assertEquals(5, list.size());
+    }
+
+
+    @Test
+    public void givenSomeJavaQuestions_whenGetBiggerSizeQuestions_thenCheckException() {
+        lenient().when(javaQuestionService.getAll()).thenReturn(
+                List.of(
+                        new Question("question_00", "answer_00")
                 )
         );
         assertThrows(NoEnoughQuestions.class, () -> {
-            examinerService.getQuestions(type, 10);
+            examinerService.getQuestions(10, "java");
         });
     }
+
+    @Test
+    public void givenSomeMathQuestions_whenGetBiggerSizeQuestions_thenCheckException() {
+        lenient().when(javaQuestionService.getAll()).thenReturn(
+                List.of(
+                        new Question("question_00", "answer_00")
+                )
+        );
+        assertThrows(NoEnoughQuestions.class, () -> {
+            examinerService.getQuestions(10, "math");
+        });
+    }
+
 }

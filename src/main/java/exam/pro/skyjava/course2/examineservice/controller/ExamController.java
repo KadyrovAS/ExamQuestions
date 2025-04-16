@@ -20,11 +20,11 @@ public class ExamController {
 
     @GetMapping("/java/get/{amount}")
     public Collection<Question> getQuestionsJava(@PathVariable("amount") int amount){
-        return examinerService.getQuestions("java", amount);
+        return examinerService.getQuestions(amount, "java");
     }
 
     @GetMapping("/math/get/{amount}")
     public Collection<Question> getQuestionsMath(@PathVariable("amount") int amount){
-        return examinerService.getQuestions("math", amount);
+        return examinerService.getQuestions(amount, "math");
     }
 }

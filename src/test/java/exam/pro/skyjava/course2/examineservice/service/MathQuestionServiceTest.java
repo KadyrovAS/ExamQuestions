@@ -15,22 +15,21 @@ import java.util.Set;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
-public class QuestionRepositoryTest {
+public class MathQuestionServiceTest{
 
     @Mock
     private Set<Question> questionSet;
     @Mock
     private Random random;
     @InjectMocks
-    private QuestionRepository questionRepository;
+    private MathQuestionService questionRepository;
 
     @Test
     public void givenQuestion_whenRemoveQuestion_thenCheckQuestionWasRemove() {
         String questionLine = "question01";
         String answerLine = "answer01";
-        String type = "java";
 
-        Question question = new Question(questionLine, answerLine, type);
+        Question question = new Question(questionLine, answerLine);
         questionRepository.add(question);
         Question result = questionRepository.remove(question);
 
@@ -43,9 +42,9 @@ public class QuestionRepositoryTest {
         String answerLine = "answer02";
         String type = "java";
 
-        Question question = new Question(questionLine, answerLine, type);
+        Question question = new Question(questionLine, answerLine);
         questionRepository.add(question);
-        Collection<Question> result = questionRepository.find("question", type);
+        Collection<Question> result = questionRepository.find("question");
 
         Assertions.assertTrue(result.contains(question));
     }
@@ -56,9 +55,9 @@ public class QuestionRepositoryTest {
         String answerLine = "answer03";
         String type = "java";
 
-        Question question = new Question(questionLine, answerLine, type);
+        Question question = new Question(questionLine, answerLine);
         questionRepository.add(question);
-        Collection<Question> result = questionRepository.getAll(type);
+        Collection<Question> result = questionRepository.getAll();
 
         Assertions.assertTrue(result.contains(question));
     }
@@ -70,8 +69,8 @@ public class QuestionRepositoryTest {
         String type = "java";
 
         lenient().when(random.nextInt()).thenReturn(0);
-        questionRepository.add(questionLine, answerLine, type);
-        Question question = questionRepository.getRandomQuestion(type);
+        questionRepository.add(questionLine, answerLine);
+        Question question = questionRepository.getRandomQuestion();
 
         Assertions.assertNotNull(question);
     }

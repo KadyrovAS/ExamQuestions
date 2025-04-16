@@ -1,7 +1,7 @@
 package exam.pro.skyjava.course2.examineservice.controller;
 
 import exam.pro.skyjava.course2.examineservice.model.Question;
-import exam.pro.skyjava.course2.examineservice.service.QuestionRepository;
+import exam.pro.skyjava.course2.examineservice.service.JavaQuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -9,11 +9,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/exam/java")
 public class JavaQuestionController {
-    private final QuestionRepository questionRepository;
+    private final JavaQuestionService javaQuestionService;
     private final String type = "java";
 
-    public JavaQuestionController(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public JavaQuestionController(JavaQuestionService questionRepository) {
+        this.javaQuestionService = questionRepository;
     }
 
     @GetMapping("/add")
@@ -21,7 +21,7 @@ public class JavaQuestionController {
             @RequestParam("question") String question,
             @RequestParam("answer") String answer
     ){
-        return questionRepository.add(question, answer, type);
+        return javaQuestionService.add(question, answer);
     }
 
     @GetMapping("/remove")
@@ -29,7 +29,7 @@ public class JavaQuestionController {
             @RequestParam("question") String question,
             @RequestParam("answer") String answer
     ){
-        Question q = questionRepository.remove(new Question(question, answer, type));
+        Question q = javaQuestionService.remove(new Question(question, answer));
         if (q == null){
             return "Question not found";
         }else {
@@ -39,11 +39,11 @@ public class JavaQuestionController {
 
     @GetMapping("")
     public Collection<Question> getAllQuestions(){
-        return questionRepository.getAll(type);
+        return javaQuestionService.getAll();
     }
 
     @GetMapping("/find/{findLine}")
     public Collection<Question>find(@PathVariable("findLine") String findLine){
-        return questionRepository.find(findLine, type);
+        return javaQuestionService.find(findLine);
     }
 }

@@ -5,12 +5,10 @@ import java.util.Objects;
 public class Question {
     private final String question;
     private final String answer;
-    private final String type;
 
-    public Question(String question, String answer, String type) {
+    public Question(String question, String answer) {
         this.question = question;
         this.answer = answer;
-        this.type = type;
     }
 
     public String getQuestion() {
@@ -19,10 +17,6 @@ public class Question {
 
     public String getAnswer() {
         return answer;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getContext() {
@@ -34,13 +28,12 @@ public class Question {
         if (o == null || getClass() != o.getClass()) return false;
         Question question1 = (Question) o;
         return Objects.equals(question, question1.question) &&
-                Objects.equals(answer, question1.answer) &&
-                Objects.equals(type, question1.type);
+                Objects.equals(answer, question1.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(question, answer, type);
+        return Objects.hash(question, answer);
     }
 
     @Override

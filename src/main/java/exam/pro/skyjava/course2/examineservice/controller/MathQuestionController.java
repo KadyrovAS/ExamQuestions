@@ -1,7 +1,8 @@
 package exam.pro.skyjava.course2.examineservice.controller;
 
 import exam.pro.skyjava.course2.examineservice.model.Question;
-import exam.pro.skyjava.course2.examineservice.service.QuestionRepository;
+import exam.pro.skyjava.course2.examineservice.service.JavaQuestionService;
+import exam.pro.skyjava.course2.examineservice.service.MathQuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -9,11 +10,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/exam/math")
 public class MathQuestionController{
-    private final QuestionRepository questionRepository;
+    private final MathQuestionService mathQuestionService;
     private final String type = "math";
 
-    public MathQuestionController(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public MathQuestionController(MathQuestionService mathQuestionService) {
+        this.mathQuestionService = mathQuestionService;
     }
 
     @GetMapping("/add")
@@ -21,7 +22,7 @@ public class MathQuestionController{
             @RequestParam("question") String question,
             @RequestParam("answer") String answer
     ){
-        return questionRepository.add(question, answer, type);
+        return mathQuestionService.add(question, answer);
     }
 
     @GetMapping("/remove")
@@ -29,7 +30,7 @@ public class MathQuestionController{
             @RequestParam("question") String question,
             @RequestParam("answer") String answer
     ){
-        Question q = questionRepository.remove(new Question(question, answer, type));
+        Question q = mathQuestionService.remove(new Question(question, answer));
         if (q == null){
             return "Question not found";
         }else {
@@ -39,11 +40,11 @@ public class MathQuestionController{
 
     @GetMapping("")
     public Collection<Question> getAllQuestions(){
-        return questionRepository.getAll(type);
+        return mathQuestionService.getAll();
     }
 
     @GetMapping("/find/{findLine}")
     public Collection<Question>find(@PathVariable("findLine") String findLine){
-        return questionRepository.find(findLine, type);
+        return mathQuestionService.find(findLine);
     }
 }
